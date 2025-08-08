@@ -1,4 +1,3 @@
-// Language list (BCP-47 codes compatible with Web Speech + MyMemory)
 const LANGUAGES = [
   { code: "auto", name: "Auto Detect (source only)" },
   { code: "af-ZA", name: "Afrikaans" },
@@ -51,7 +50,6 @@ const LANGUAGES = [
   { code: "zh-TW", name: "Chinese (Traditional)" },
 ];
 
-// DOM
 const sourceText = document.getElementById("source-text");
 const translatedText = document.getElementById("translated-text");
 const translateButton = document.getElementById("translate-button");
@@ -67,16 +65,13 @@ const clearBtn = document.getElementById("clear-btn");
 const statusEl = document.getElementById("status");
 const toast = document.getElementById("toast");
 
-// API
 const API = "https://api.mymemory.translated.net/get";
 
-// UI state
 let typingInterval = null;
 let recognizing = false;
 let synth = window.speechSynthesis;
 let voices = [];
 
-// Helpers
 function showToast(msg){
   toast.textContent = msg;
   toast.classList.add("show");
@@ -101,18 +96,14 @@ function setLoading(isLoading){
 }
 function startTypingEffect(){
   stopTypingEffect();
-  // Dots handled via CSS .typing::after
 }
 function stopTypingEffect(){
-  // nothing to clear; reserved if needed
 }
 function encode(str){
   return encodeURIComponent(str).replace(/%20/g,'+');
 }
 function langForAPI(code){
-  // MyMemory supports "auto" as "auto"
   if(code === "auto") return "auto";
-  // convert en-US -> en
   return (code.split("-")[0] || code);
 }
 function populateLanguages(){
@@ -122,7 +113,6 @@ function populateLanguages(){
     const o1 = document.createElement("option");
     o1.value = l.code; o1.textContent = l.name;
     fromLanguage.appendChild(o1);
-
     if(l.code !== "auto"){
       const o2 = document.createElement("option");
       o2.value = l.code; o2.textContent = l.name;
@@ -136,15 +126,13 @@ function swapLanguages(){
   const fromVal = fromLanguage.value;
   const toVal = toLanguage.value;
   if(toVal === "auto"){ showToast("Cannot set target to Auto"); return; }
-  // If from is auto, swap makes no sense — guard it
   if(fromVal === "auto"){
     fromLanguage.value = toVal;
-    toLanguage.value = "en-US"; // sensible default
+    toLanguage.value = "en-US";
   }else{
     fromLanguage.value = toVal;
     toLanguage.value = fromVal;
   }
-  // Swap texts too
   const s = sourceText.value;
   sourceText.value = translatedText.value;
   translatedText.value = s;
@@ -187,7 +175,6 @@ async function copyToClipboard(text){
   }
 }
 
-/* Speech-to-Text */
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 if(SpeechRecognition){
@@ -217,7 +204,6 @@ function startRecognition(){
   };
 }
 
-/* Text-to-Speech */
 function loadVoices(){
   voices = synth ? synth.getVoices() : [];
 }
@@ -233,7 +219,6 @@ function speak(text, langCode){
   const utter = new SpeechSynthesisUtterance(text);
   const base = (langCode || "en-US");
   const langShort = base.split("-")[0];
-  // Prefer exact match, then startsWith(short), else default
   let voice = voices.find(v => v.lang === base) ||
               voices.find(v => v.lang && v.lang.toLowerCase().startsWith(langShort)) ||
               voices.find(v => v.default) || voices[0];
@@ -241,11 +226,10 @@ function speak(text, langCode){
   utter.lang = voice?.lang || base;
   utter.rate = 1;
   utter.pitch = 1;
-  synth.cancel(); // stop any previous
+  synth.cancel();
   synth.speak(utter);
 }
 
-/* Event bindings */
 document.addEventListener("DOMContentLoaded", ()=>{
   populateLanguages();
   updateCounter();
@@ -261,7 +245,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   micBtn.addEventListener("click", startRecognition);
   speakBtn.addEventListener("click", ()=> speak(translatedText.value, toLanguage.value));
 
-  // Enter to translate (Ctrl/Cmd+Enter)
   sourceText.addEventListener("keydown", (e)=>{
     if((e.metaKey || e.ctrlKey) && e.key === "Enter"){
       translateText();
