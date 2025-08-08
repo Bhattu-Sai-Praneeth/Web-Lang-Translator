@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web Language Translator – Live, Fast, Powerful</title>
+  <meta name="description" content="Live Web Language Translator with speech-to-text, text-to-speech, copy, swap languages, and smooth red-black animations."/>
+  <meta name="theme-color" content="#0b0b0f"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Web Language Translator" />
+  <meta property="og:description" content="Translate text live with speech input, audio output, copy, swap, and elegant red-black UI." />
+  <meta property="og:type" content="website" />
+
+  <link rel="canonical" href="https://example.com/translator" />
+  <link rel="preconnect" href="https://api.mymemory.translated.net" crossorigin>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="container">
+      <a class="brand" href="#" aria-label="Web Language Translator Home">
+        <span class="brand-glyph" aria-hidden="true"></span>
+        <span class="brand-text">Web Language Translator</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1 class="h1">Live Language Translator</h1>
+      <p class="sub">
+        Translate text instantly with speech input, audio output, copy, and swap — all in a sleek red & black interface.
+      </p>
+    </section>
+
+    <article class="translator-card" aria-label="Translator">
+      <div class="lang-row">
+        <label class="sr-only" for="from-language">From language</label>
+        <select id="from-language" class="select"></select>
+
+        <button id="swap-btn" class="btn btn-ghost" aria-label="Swap languages" title="Swap languages">
+          <span class="icon">⇄</span>
+        </button>
+
+        <label class="sr-only" for="to-language">To language</label>
+        <select id="to-language" class="select"></select>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Source</h2>
+            <div class="panel-actions">
+              <button id="mic-btn" class="icon-btn" title="Speech to Text" aria-label="Speech to Text">
+                <span class="icon">🎤</span>
+              </button>
+              <button id="copy-source" class="icon-btn" title="Copy Source" aria-label="Copy Source">
+                <span class="icon">📋</span>
+              </button>
+            </div>
+          </div>
+          <textarea id="source-text" class="textarea" placeholder="Enter text to translate" maxlength="5000"></textarea>
+          <div class="meta-row">
+            <span id="char-counter" class="muted">0 / 5000</span>
+            <span id="status" class="muted" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Translation</h2>
+            <div class="panel-actions">
+              <button id="speak-btn" class="icon-btn" title="Text to Speech" aria-label="Text to Speech">
+                <span class="icon">🔊</span>
+              </button>
+              <button id="copy-translated" class="icon-btn" title="Copy Translation" aria-label="Copy Translation">
+                <span class="icon">📋</span>
+              </button>
+            </div>
+          </div>
+          <textarea id="translated-text" class="textarea" placeholder="Translation" readonly></textarea>
+          <div class="meta-row">
+            <span class="muted">Auto-detected grammar may vary.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="translate-button" class="btn btn-primary">
+          <span class="btn-content">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Translate</span>
+          </span>
+        </button>
+        <button id="clear-btn" class="btn btn-ghost">Clear</button>
+      </div>
+    </article>
+  </main>
+
+  <aside id="toast" class="toast" role="status" aria-live="polite"></aside>
+
+  <footer class="site-footer container">
+    <p class="muted">Powered by MyMemory API · Speech features depend on your browser support.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
